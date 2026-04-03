@@ -59,4 +59,19 @@ public class FinancialRecordService {
     public void deleteRecord(Long id) {
         recordRepository.deleteById(id);
     }
+
+    //Update record
+    public FinancialRecord updateRecord(Long id, FinancialRecord updatedRecord) {
+
+        FinancialRecord existing = recordRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Record not found"));
+
+        existing.setAmount(updatedRecord.getAmount());
+        existing.setType(updatedRecord.getType());
+        existing.setCategory(updatedRecord.getCategory());
+        existing.setDate(updatedRecord.getDate());
+        existing.setDescription(updatedRecord.getDescription());
+
+        return recordRepository.save(existing);
+    }
 }

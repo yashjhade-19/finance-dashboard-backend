@@ -55,4 +55,11 @@ public class FinancialRecordController {
     public void deleteRecord(@PathVariable Long id) {
         recordService.deleteRecord(id);
     }
+
+    //Update record
+    @PutMapping("/{id}")
+    public FinancialRecord updateRecord(@PathVariable Long id,
+                                        @RequestBody FinancialRecord record) {
+        return recordService.updateRecord(id, record);
+    }
 }
