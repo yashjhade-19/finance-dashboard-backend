@@ -3,6 +3,7 @@ package com.yash.finance_dashboard.controller;
 import com.yash.finance_dashboard.model.FinancialRecord;
 import com.yash.finance_dashboard.model.RecordType;
 import com.yash.finance_dashboard.service.FinancialRecordService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ public class FinancialRecordController {
 
     // Create Record
     @PostMapping
-    public FinancialRecord createRecord(@RequestBody FinancialRecord record) {
+    public FinancialRecord createRecord(@Valid @RequestBody FinancialRecord record) {
         return recordService.createRecord(record);
     }
 
@@ -59,7 +60,7 @@ public class FinancialRecordController {
     //Update record
     @PutMapping("/{id}")
     public FinancialRecord updateRecord(@PathVariable Long id,
-                                        @RequestBody FinancialRecord record) {
+                                        @Valid @RequestBody FinancialRecord record) {
         return recordService.updateRecord(id, record);
     }
 }

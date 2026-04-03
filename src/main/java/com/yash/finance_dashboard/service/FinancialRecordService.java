@@ -8,7 +8,10 @@ import com.yash.finance_dashboard.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.time.Month;
 
 @Service
 public class FinancialRecordService {
@@ -73,5 +76,70 @@ public class FinancialRecordService {
         existing.setDescription(updatedRecord.getDescription());
 
         return recordRepository.save(existing);
+    }
+
+    public Map<String, Double> getSummary() {
+
+        List<FinancialRecord> records = recordRepository.findAll();
+
+        double totalIncome = records.stream()
+                .filter(r -> r.getType() == RecordType.INCOME)
+                .mapToDouble(FinancialRecord::getAmount)
+                .sum();
+
+        double totalExpense = records.stream()
+                .filter(r -> r.getType() == RecordType.EXPENSE)
+                .mapToDouble(FinancialRecord::getAmount)
+                .sum();
+
+        double netBalance = totalIncome - totalExpense;
+
+        Map<String, Double> summary = new HashMap<>();
+        summary.put("totalIncome", totalIncome);
+        summary.put("totalExpense", totalExpense);
+        summary.put("netBalance", netBalance);
+
+        return summary;
+    }
+
+
+    public Map<String, Double> getCategorySummary() {
+
+        List<FinancialRecord> records = recordRepository.findAll();
+
+        Map<String, Double> categoryMap = new HashMap<>();
+
+        for (FinancialRecord record : records) {
+
+            String category = record.getCategory();
+            double amount = record.getAmount();
+
+            categoryMap.put(
+                    category,
+                    categoryMap.getOrDefault(category, 0.0) + amount
+            );
+        }
+
+        return categoryMap;
+    }
+
+    public Map<String, Double> getMonthlyTrends() {
+
+        List<FinancialRecord> records = recordRepository.findAll();
+
+        Map<String, Double> monthlyMap = new HashMap<>();
+
+        for (FinancialRecord record : records) {
+
+            String month = record.getDate().getMonth().toString(); // JANUARY, FEBRUARY
+            double amount = record.getAmount();
+
+            monthlyMap.put(
+                    month,
+                    monthlyMap.getOrDefault(month, 0.0) + amount
+            );
+        }
+
+        return monthlyMap;
     }
 }

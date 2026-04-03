@@ -2,6 +2,7 @@ package com.yash.finance_dashboard.controller;
 
 import com.yash.finance_dashboard.model.User;
 import com.yash.finance_dashboard.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class UserController {
 
     // Create User
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    public User updateUser(@PathVariable Long id,@Valid @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 }
