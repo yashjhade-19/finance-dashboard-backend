@@ -142,4 +142,8 @@ public class FinancialRecordService {
 
         return monthlyMap;
     }
+
+    public List<FinancialRecord> searchByCategory(String category) {
+        return recordRepository.findByCategoryContainingIgnoreCase(category);
+    }
 }

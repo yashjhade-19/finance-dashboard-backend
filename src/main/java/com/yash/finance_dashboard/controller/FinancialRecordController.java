@@ -63,4 +63,9 @@ public class FinancialRecordController {
                                         @Valid @RequestBody FinancialRecord record) {
         return recordService.updateRecord(id, record);
     }
+
+    @GetMapping("/search")
+    public List<FinancialRecord> search(@RequestParam String category) {
+        return recordService.searchByCategory(category);
+    }
 }
