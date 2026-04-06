@@ -146,4 +146,8 @@ public class FinancialRecordService {
     public List<FinancialRecord> searchByCategory(String category) {
         return recordRepository.findByCategoryContainingIgnoreCase(category);
     }
+
+    public List<FinancialRecord> getRecentRecords() {
+        return recordRepository.findTop5ByOrderByDateDesc();
+    }
 }

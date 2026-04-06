@@ -16,4 +16,7 @@ public interface FinancialRecordRepository extends JpaRepository<FinancialRecord
     List<FinancialRecord> findByDateBetween(LocalDate start, LocalDate end);
 
     List<FinancialRecord> findByCategoryContainingIgnoreCase(String category);
+
+
+    List<FinancialRecord> findTop5ByOrderByDateDesc();
 }
